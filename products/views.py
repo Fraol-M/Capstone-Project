@@ -14,9 +14,7 @@ from rest_framework.views import APIView
 
 
 
-class ProductListAPIView(generics.ListAPIView):
-    queryset = Product.objects.select_related("category")
-    serializer_class = ProductSerializer
+
     
     
 class ProductListCreateAPIView(generics.ListCreateAPIView):
