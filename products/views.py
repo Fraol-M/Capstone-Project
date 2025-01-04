@@ -6,7 +6,10 @@ from .serializers import ProductSerializer, OrderItemSerilizer, OrderSerilizer, 
 from .models import Product, Order, OrderItem, Category
 from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAdminUser,
+    AllowAny)
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 
@@ -20,6 +23,12 @@ from rest_framework.views import APIView
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.select_related("category")
     serializer_class = ProductSerializer
+    
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]  
+        if self.request.method == "POST":
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
 
 
 
@@ -30,9 +39,17 @@ class CategoryListAPIView(generics.ListAPIView):
     
     
 
-class ProductDetailAPIView(generics.RetrieveAPIView):
+class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product
     serializer_class = ProductSerializer
+    lookup_url_kwarg = 'product_id'
+    
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]  
+        if self.request.method in ["POST", "PUT", "PATCH", "DELETE"]:
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
+    
 
     
     
