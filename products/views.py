@@ -14,7 +14,9 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 
 
-from .filter import ProductFilter
+from .filter import ProductFilter, InStockFilter
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
@@ -23,7 +25,16 @@ from .filter import ProductFilter
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.select_related("category")
     serializer_class = ProductSerializer
-    filterset_class = ProductFilter    
+    filterset_class = ProductFilter
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        InStockFilter
+    ]
+    search_fields = ['^name', 'price']
+    ordering_fields = ['name','price', 'stock']
+
    
     def get_permissions(self):
         self.permission_classes = [AllowAny]  
