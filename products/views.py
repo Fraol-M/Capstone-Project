@@ -14,7 +14,7 @@ from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 
 
-
+from .filter import ProductFilter
 
 
 
@@ -23,7 +23,8 @@ from rest_framework.views import APIView
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.select_related("category")
     serializer_class = ProductSerializer
-    
+    filterset_class = ProductFilter    
+   
     def get_permissions(self):
         self.permission_classes = [AllowAny]  
         if self.request.method == "POST":
