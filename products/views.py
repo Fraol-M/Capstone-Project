@@ -28,6 +28,7 @@ from rest_framework.decorators import action
 class CategoryListAPIView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    pagination_class = None
     
     
     
