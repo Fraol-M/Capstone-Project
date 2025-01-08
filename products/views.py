@@ -94,20 +94,29 @@ class OrderViewSets(viewsets.ModelViewSet):
     queryset = Order.objects.prefetch_related("items", "items__product")
     serializer_class = OrderSerilizer
     pagination_class = None
+    permission_classes = [IsAuthenticated]
+
     filterset_class = OrderFilter
     filter_backends = [DjangoFilterBackend]
-    permission_classes = [IsAuthenticated],
+    
+    
+    
+    def get_queryset(self):
+        user = self.request.user  
+        qs = super().get_queryset()
+        if not user.is_staff:
+            qs = qs.filter(user=user)
+        return qs
 
-
-    @action(detail=False, 
-            methods=['get'],
-            url_path= 'user'
-        )
-    def user_order(self, request):
-        user = request.user
-        orders = self.get_queryset().filter(user=user)
-        serializer = self.get_serializer(orders, many=True)
-        return Response(serializer.data)
+    # @action(detail=False, 
+    #         methods=['get'],
+    #         url_path= 'user'
+    #     )
+    # def user_order(self, request):
+    #     user = request.user
+    #     orders = self.get_queryset().filter(user=user)
+    #     serializer = self.get_serializer(orders, many=True)
+    #     return Response(serializer.data)
 
     
 
