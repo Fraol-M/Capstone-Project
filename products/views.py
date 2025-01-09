@@ -125,6 +125,8 @@ class OrderViewSets(viewsets.ModelViewSet):
     
     
 class ProductInfoApiView(APIView):
+    permission_classes = [AllowAny]
+
     
     def get(self, request):
         product = Product.objects.all()
