@@ -74,6 +74,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ecommerce_api.wsgi.application'
 
+STATIC_ROOT = BASE_DIR/'staticfiles'
+
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
