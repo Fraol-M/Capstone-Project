@@ -28,6 +28,11 @@ class ProductSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Price must be greater than zero! ")
         return value
     
+    def validate_stock(self, value):
+        if value < 0:
+            raise serializers.ValidationError("Sorry no ava stock! ")
+        return value
+    
 
 
 class CategorySerializer(serializers.ModelSerializer):
