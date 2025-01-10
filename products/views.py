@@ -76,7 +76,6 @@ class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-
 class OrderViewSets(viewsets.ModelViewSet):
     queryset = Order.objects.prefetch_related("items", "items__product")
     serializer_class = OrderSerilizer
