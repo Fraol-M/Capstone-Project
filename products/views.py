@@ -76,20 +76,6 @@ class ProductDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 
 
 
-# class OrderListAPIView(generics.ListAPIView):
-#     queryset = Order.objects.prefetch_related("items", "items__product")
-#     serializer_class = OrderSerilizer
-    
-    
-# class UserOrderListAPIView(generics.ListAPIView):
-#     queryset = Order.objects.prefetch_related("items", "items__product")
-#     serializer_class = OrderSerilizer
-#     permission_classes = [IsAuthenticated]
-    
-#     def get_queryset(self):
-#         user = self.request.user
-#         qs = super().get_queryset()
-#         return qs.filter(user=user)
 
 class OrderViewSets(viewsets.ModelViewSet):
     queryset = Order.objects.prefetch_related("items", "items__product")
@@ -109,17 +95,7 @@ class OrderViewSets(viewsets.ModelViewSet):
             qs = qs.filter(user=user)
         return qs
 
-    # @action(detail=False, 
-    #         methods=['get'],
-    #         url_path= 'user'
-    #     )
-    # def user_order(self, request):
-    #     user = request.user
-    #     orders = self.get_queryset().filter(user=user)
-    #     serializer = self.get_serializer(orders, many=True)
-    #     return Response(serializer.data)
 
-    
 
 
     
